@@ -40,11 +40,37 @@
 
   programs.neovim = {
     enable = true;
-    viAlias = true;
-    vimAlias = true;
 
-    extraConfig = ''
-	inoremap jj <Esc>
+    extraPackages = with pkgs; [
+      alejandra
+    ];
+
+    plugins = with pkgs.vimPlugins; [
+      conform-nvim
+    ];
+
+    extraLuaConfig = ''
+      -- general keymaps
+      vim.g.mapleader = " "
+      vim.g.maplocalleader = " "
+
+      vim.keymap.set("n", "<leader>ss", "<cmd>w<CR>", { desc = "Save file" })
+      vim.keymap.set("i", "jj", "<Esc>", { desc = "Exit insert mode" })
+
+      -- conform.nvim
+      require("conform").setup({
+        format_on_save = {
+          lsp_fallback = true,
+          timeout_ms = 2000,
+        },
+        formatters_by_ft = {
+          nix = { "alejandra" },
+        },
+      })
+
+      vim.keymap.set("n", "<leader>f", function()
+        require("conform").format({ async = true })
+      end, { desc = "Format file" })
     '';
   };
 }

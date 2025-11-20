@@ -1,131 +1,276 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
-  # JSON + CSS for Waybar with Hyprland workspaces. :contentReference[oaicite:6]{index=6}
-  xdg.configFile."waybar/config.jsonc".text = ''
-    {
-      "layer": "top",
-      "position": "top",
-      "height": 30,
-      "spacing": 4,
+  programs.waybar = {
+    enable = true;
 
-      "modules-left": ["hyprland/workspaces"],
-      "modules-center": ["clock"],
-      "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray"],
+    settings = {
+      mainBar = {
+        layer = "top";
+        position = "top";
+        height = 32;
+        margin = "8 8 0 8";
 
-      "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate",
-        "all-outputs": true,
-        "sort-by-number": true,
-        "format-icons": {
-          "1": "1",
-          "2": "2",
-          "3": "3",
-          "4": "4",
-          "5": "5",
-          "6": "6",
-          "7": "7",
-          "8": "8",
-          "9": "9",
-          "focused": "",
-          "default": ""
-        }
-      },
+        "modules-left" = [
+          "hyprland/workspaces"
+          "hyprland/window"
+          "group/tasks"
+        ];
 
-      "clock": {
-        "format": "{:%a %d %b %H:%M}",
-        "tooltip-format": "{:%Y-%m-%d}"
-      },
+        "modules-center" = [
+          "group/media"
+          "clock"
+        ];
 
-      "pulseaudio": {
-        "format": "{volume}% {icon}",
-        "format-muted": "",
-        "format-icons": ["", "", ""]
-      },
+        "modules-right" = [
+          "group/controls"
+          "tray"
+          "group/system"
+          "custom/power"
+        ];
 
-      "network": {
-        "format-wifi": " {signalStrength}%",
-        "format-ethernet": "",
-        "format-disconnected": "󰌙"
-      },
+        # === GROUPS (ISLANDS) ===
 
-      "cpu": {
-        "format": " {usage}%",
-        "tooltip": false
-      },
+        "group/tasks" = {
+          orientation = "horizontal";
+          modules = [
+            "wlr/taskbar"
+          ];
+        };
 
-      "memory": {
-        "format": " {used:0.1f}G",
-        "tooltip": false
-      },
+        "group/media" = {
+          orientation = "horizontal";
+          modules = [
+            "mpris"
+          ];
+        };
 
-      "battery": {
-        "format": "{capacity}% {icon}",
-        "format-charging": " {capacity}%",
-        "format-icons": ["", "", "", "", ""]
-      },
+        "group/system" = {
+          orientation = "horizontal";
+          modules = [
+            "cpu"
+            "memory"
+            "temperature"
+          ];
+        };
 
-      "tray": {
-        "spacing": 8
+        "group/controls" = {
+          orientation = "horizontal";
+          modules = [
+            "pulseaudio"
+            "bluetooth"
+            "network"
+            "custom/display"
+            "backlight"
+          ];
+        };
+
+        # === MODULE CONFIG ===
+
+        "wlr/taskbar" = {
+          format = "{icon}";
+          icon-size = 20;
+          all-outputs = true;
+          active-first = true;
+          on-click = "activate";
+          on-click-middle = "close";
+        };
+
+        pulseaudio = {
+          format = "{icon} {volume}%";
+          format-muted = " mute";
+          tooltip = true;
+          on-click = "pavucontrol";
+          scroll-step = 2;
+        };
+
+        bluetooth = {
+          format = " {status}";
+          format-connected = " {num_connections}";
+          format-disabled = " off";
+          tooltip = true;
+          on-click = "blueman-manager";
+        };
+
+        network = {
+          format-wifi = " {essid}";
+          format-ethernet = "󰈁 {ifname}";
+          format-disconnected = "󰖪";
+          tooltip = true;
+          on-click = "nm-connection-editor";
+        };
+
+        "custom/display" = {
+          format = "󰍹";
+          tooltip = "Display settings";
+          on-click = "wdisplays";
+        };
+
+        cpu = {
+          format = " {usage}%";
+          tooltip = true;
+          on-click = "kitty -e btop";
+        };
+
+        memory = {
+          format = " {used:0.1f}G";
+          tooltip = true;
+          on-click = "kitty -e btop";
+        };
+
+        temperature = {
+          format = " {temperatureC}°C";
+          critical-threshold = 80;
+          tooltip = true;
+          hwmon-path = "/sys/class/hwmon/hwmon0/temp1_input";
+        };
+
+        backlight = {
+          format = " {percent}%";
+          on-scroll-up = "brightnessctl set +5%";
+          on-scroll-down = "brightnessctl set 5%-";
+        };
+
+        battery = {
+          format = "{icon} {capacity}%";
+          format-charging = " {capacity}%";
+          states = {
+            good = 80;
+            warning = 30;
+            critical = 15;
+          };
+        };
+
+        mpris = {
+          format = "{player_icon} {title}";
+          max-length = 30;
+          tooltip = true;
+          on-click = "playerctl play-pause";
+          on-scroll-up = "playerctl next";
+          on-scroll-down = "playerctl previous";
+        };
+
+	clock = {
+	  interval = 60;
+          format = " {:%a %d %b   %H:%M}";
+	  tooltip = true;
+	  tooltip-format = "<tt><small>{calendar}</small></tt>";
+
+	  calendar = {
+	    mode = "month";
+	    mode-mon-col = 3;
+	    weeks-pos = "right";
+	    on-scroll = 1;
+
+	    format = {
+	      months   = "<span color='#cdd6f4'><b>{}</b></span>";
+	      days     = "<span color='#b4befe'><b>{}</b></span>";
+	      weeks    = "<span color='#a6e3a1'><b>W{}</b></span>";
+	      weekdays = "<span color='#fab387'><b>{}</b></span>";
+	      today    = "<span color='#f38ba8'><b><u>{}</u></b></span>";
+	    };
+	  };
+	};
+
+        tray = {
+          icon-size = 18;
+          spacing = 8;
+        };
+
+        "custom/power" = {
+          format = "";
+          tooltip = "Power menu";
+          on-click = "wlogout";
+        };
+      };
+    };
+
+    style = ''
+      * {
+        border: none;
+        border-radius: 0;
+        font-family: "JetBrainsMono Nerd Font", "Iosevka", monospace;
+        font-size: 12px;
+        min-height: 0;
       }
-    }
-  '';
 
-  xdg.configFile."waybar/style.css".text = ''
-    * {
-      border: none;
-      border-radius: 0;
-      font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", monospace;
-      font-size: 12px;
-      min-height: 0;
-    }
+      /* transparent background, only islands are visible */
+      window#waybar {
+        background-color: transparent;
+      }
 
-    window#waybar {
-      background: rgba(30, 30, 46, 0.90);
-      color: #cdd6f4;
-    }
+      /* islands */
+      #left,
+      #tasks,
+      #media,
+      #system,
+      #controls,
+      #misc {
+        background-color: rgba(24, 24, 37, 0.92);
+        border-radius: 14px;
+        padding: 4px 8px;
+        margin: 0 6px;
+      }
 
-    .modules-left,
-    .modules-center,
-    .modules-right {
-      padding: 0 6px;
-    }
+      #workspaces {
+        border-radius: 999px;
+        background: transparent;
+      }
 
-    #workspaces button {
-      padding: 0 6px;
-      background: transparent;
-      color: #a6adc8;
-    }
+      #workspaces button {
+        border-radius: 999px;
+        padding: 2px 8px;
+        margin: 2px 3px;
+      }
 
-    #workspaces button.active {
-      background: #89b4fa;
-      color: #1e1e2e;
-      border-radius: 999px;
-    }
+      #workspaces button.active {
+        background: rgba(137, 180, 250, 0.4);
+      }
 
-    #workspaces button.urgent {
-      background: #f38ba8;
-      color: #1e1e2e;
-    }
+      #workspaces button.urgent {
+        background: rgba(243, 139, 168, 0.8);
+      }
 
-    #clock,
-    #cpu,
-    #memory,
-    #battery,
-    #network,
-    #pulseaudio,
-    #tray {
-      padding: 0 8px;
-    }
+      #taskbar button {
+        border-radius: 10px;
+        padding: 2px 8px;
+        margin: 0 2px;
+      }
 
-    #battery.charging {
-      color: #a6e3a1;
-    }
+      #taskbar button.active {
+        background-color: rgba(137, 180, 250, 0.3);
+      }
 
-    #battery.critical:not(.charging) {
-      color: #f38ba8;
-    }
-  '';
+      /* make modules inside islands inherit */
+      #pulseaudio,
+      #bluetooth,
+      #network,
+      #custom-display,
+      #cpu,
+      #memory,
+      #temperature,
+      #backlight,
+      #battery,
+      #mpris,
+      #clock,
+      #tray,
+      #custom-power {
+        background: transparent;
+        padding: 0 4px;
+        margin: 0 2px;
+      }
+
+      #custom-power {
+        border-radius: 999px;
+        padding: 2px 10px;
+        background: rgba(243, 139, 168, 0.9);
+        color: #1e1e2e;
+      }
+
+      #custom-power:hover {
+        background: rgba(243, 139, 168, 1.0);
+      }
+    '';
+  };
 }
 

@@ -10,6 +10,7 @@
     mangohud
     protonup-qt
     discord
+    prismlauncher
   ];
 }
 

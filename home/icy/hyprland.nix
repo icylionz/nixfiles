@@ -6,7 +6,6 @@
 
   # Wayland desktop helpers & Hyprland ecosystem tools.
   home.packages = with pkgs; [
-    waybar
     rofi-wayland
     hyprpaper
     swaynotificationcenter   # binary is `swaync`
@@ -21,7 +20,7 @@
     blueman
     wdisplays
     networkmanagerapplet
-    rofi-power-menu
+    wlogout
   ];
 
   home.sessionVariables = {
@@ -99,7 +98,7 @@
       ];
 
       bind = [
-        "$mod,Escape,exec,rofi -show power-menu -modi power-menu:rofi-power-menu"
+        "$mod,Escape,exec,wlogout"
         "$mod,Return,exec,kitty"
         "$mod,W,killactive,"
         "$mod,M,exit,"
@@ -144,6 +143,19 @@
         "$mod,mouse:272,movewindow"
         "$mod,mouse:273,resizewindow"
       ];
+      # Volume keys (repeat while held, work on lockscreen)
+	    bindel = [
+	      ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+	      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+	    ];
+
+	    # Media + mute keys
+	    bindl = [
+	      ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+	      ", XF86AudioPlay, exec, playerctl play-pause"
+	      ", XF86AudioNext, exec, playerctl next"
+	      ", XF86AudioPrev, exec, playerctl previous"
+	    ];
     };
   };
 
