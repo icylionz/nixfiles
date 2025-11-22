@@ -92,8 +92,6 @@
         "waybar"
         "swaync"
 	"swww-daemon"
-	"waybar"
-	"swaync"
 	"wal -R -n"
       ];
 
