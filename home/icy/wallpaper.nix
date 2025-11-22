@@ -60,9 +60,15 @@
 		     generate_thumbnail "$img" "$thumbnail"
 		  fi
 		  
-		  echo -en "img:$thumbnail\x00info:$(basename "$img")\x1f$img\n"
+		  # Store mapping: thumbnail -> original
+		  echo "$thumbnail|$img" >> "$CACHE_DIR/mapping.tmp"
+		  
+		  echo -en "img:$thumbnail\x00info:$(basename "$img")\n"
 	       done
 	    }
+	    
+	    # Clear old mapping
+	    rm -f "$CACHE_DIR/mapping.tmp"
 	    
 	    # Use wofi to display grid of wallpapers
 	    selected=$(generate_menu | wofi --show dmenu \
@@ -79,8 +85,13 @@
 	    
 	    # Set wallpaper if one was selected
 	    if [ -n "$selected" ]; then
-	       original_path="$selected" 
-	       if [ -n "$original_path" ]; then
+	       # Extract thumbnail path from the img: prefix
+	       thumbnail_path="''${selected#img:}"
+	       
+	       # Find original path from mapping
+	       original_path=$(grep "^$thumbnail_path|" "$CACHE_DIR/mapping.tmp" | cut -d'|' -f2)
+	       
+	       if [ -f "$original_path" ]; then
 		  # Set wallpaper immediately using swww
 		  swww img "$original_path" --transition-type wipe --transition-fps 60
 		  
@@ -99,12 +110,16 @@
 		  ) &
 		  
 	       else
-		  notify-send "Wallpaper Error" "Could not find the original wallpaper file."
+		  notify-send "Wallpaper Error" "Could not find the original wallpaper file: $original_path"
 	       fi
 	    fi
+	    
+	    # Cleanup
+	    rm -f "$CACHE_DIR/mapping.tmp"
 	  '';
 	  executable = true;
 	};
+
   # Wofi styling
   xdg.configFile."wofi/wallpaper-style.css".text = ''
     window {
