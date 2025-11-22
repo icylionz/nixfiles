@@ -39,6 +39,8 @@
 
       monitor = [
         # default: preferred mode, auto position, scale 1.0
+        "DP-4,1920x1080@144,0x0,1"
+        "HDMI-A-1,1920x1080@60,1920x0,1"
         ",preferred,auto,1"
       ];
 
