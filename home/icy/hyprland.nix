@@ -98,8 +98,8 @@
       bind = [
         "$mod,Escape,exec,wlogout"
         "$mod,Return,exec,kitty"
-	"$mod ALT,W,exec,wallpaper-picker"
-        "$mod,W,killactive,"
+	"$mod ALT,W,exec,$HOME/.local/bin/wallpaper-picker"
+        "$mod,Q,killactive,"
         "$mod,M,exit,"
         "$mod,E,exec,thunar"
         "$mod,V,togglefloating,"
