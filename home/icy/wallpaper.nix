@@ -79,10 +79,7 @@
 	    
 	    # Set wallpaper if one was selected
 	    if [ -n "$selected" ]; then
-	       thumbnail_path="''${selected#img:}"
-	       original_filename=$(basename "''${thumbnail_path%.*}")
-	       original_path=$(find "$WALLPAPER_DIR" -type f -name "''${original_filename}.*" | head -n1)
-	       
+	       original_path="$selected" 
 	       if [ -n "$original_path" ]; then
 		  # Set wallpaper immediately using swww
 		  swww img "$original_path" --transition-type wipe --transition-fps 60
