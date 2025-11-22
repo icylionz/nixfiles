@@ -7,7 +7,7 @@
   # Wayland desktop helpers & Hyprland ecosystem tools.
   home.packages = with pkgs; [
     rofi-wayland
-    hyprpaper
+    swww
     swaynotificationcenter   # binary is `swaync`
     grim
     slurp
@@ -27,11 +27,6 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  # Hyprpaper config (simple single-wallpaper setup).
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
-    preload = ~/Pictures/wallpapers/default.jpg
-    wallpaper = ,~/Pictures/wallpapers/default.jpg
-  '';
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -92,14 +87,18 @@
       };
 
       exec-once = [
-        "hyprpaper"
         "waybar"
         "swaync"
+	"swww-daemon"
+	"waybar"
+	"swaync"
+	"wal -R -n"
       ];
 
       bind = [
         "$mod,Escape,exec,wlogout"
         "$mod,Return,exec,kitty"
+	"$mod ALT,W,exec,wallpaper-picker"
         "$mod,W,killactive,"
         "$mod,M,exit,"
         "$mod,E,exec,thunar"
@@ -108,6 +107,7 @@
         "$mod,P,exec,rofi -show run"
         "$mod,F,fullscreen,"
         "$mod,L,exec,hyprlock"
+	"$mod ALT,R,exec,pkill waybar || true && waybar &"
 
         "$mod,1,workspace,1"
         "$mod,2,workspace,2"
@@ -143,19 +143,20 @@
         "$mod,mouse:272,movewindow"
         "$mod,mouse:273,resizewindow"
       ];
-      # Volume keys (repeat while held, work on lockscreen)
-	    bindel = [
-	      ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-	      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-	    ];
 
-	    # Media + mute keys
-	    bindl = [
-	      ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-	      ", XF86AudioPlay, exec, playerctl play-pause"
-	      ", XF86AudioNext, exec, playerctl next"
-	      ", XF86AudioPrev, exec, playerctl previous"
-	    ];
+      # Volume keys (repeat while held, work on lockscreen)
+      bindel = [
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+      ];
+
+      # Media + mute keys
+      bindl = [
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioNext, exec, playerctl next"
+        ", XF86AudioPrev, exec, playerctl previous"
+      ];
     };
   };
 

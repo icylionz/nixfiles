@@ -13,6 +13,8 @@
     ./dev.nix
     ./gaming.nix
     ./spicetify.nix
+    ./pywal.nix
+    ./theme.nix
   ];
 
   programs.bash = {
@@ -20,6 +22,8 @@
     enableCompletion = true;
     initExtra = ''
       PS1="\u@\h:\w\$ "
+
+      export PATH="$HOME/.local/bin:$PATH"
     '';
   };
 

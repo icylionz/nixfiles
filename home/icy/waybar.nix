@@ -184,93 +184,95 @@
         };
       };
     };
-
     style = ''
-      * {
-        border: none;
-        border-radius: 0;
-        font-family: "JetBrainsMono Nerd Font", "Iosevka", monospace;
-        font-size: 12px;
-        min-height: 0;
-      }
+	  /* Import pywal colors */
+	  @import url("file:///home/icy/.cache/wal/colors-waybar.css");
 
-      /* transparent background, only islands are visible */
-      window#waybar {
-        background-color: transparent;
-      }
+	  * {
+	    border: none;
+	    border-radius: 0;
+	    font-family: "JetBrainsMono Nerd Font", "Iosevka", monospace;
+	    font-size: 12px;
+	    min-height: 0;
+	  }
 
-      /* islands */
-      #left,
-      #tasks,
-      #media,
-      #system,
-      #controls,
-      #misc {
-        background-color: rgba(24, 24, 37, 0.92);
-        border-radius: 14px;
-        padding: 4px 8px;
-        margin: 0 6px;
-      }
+	  window#waybar {
+	    background-color: transparent;
+	  }
 
-      #workspaces {
-        border-radius: 999px;
-        background: transparent;
-      }
+	  /* Islands using pywal colors */
+	  #left,
+	  #tasks,
+	  #media,
+	  #system,
+	  #controls,
+	  #misc {
+	    background-color: @background;
+	    border-radius: 14px;
+	    padding: 4px 8px;
+	    margin: 0 6px;
+	  }
 
-      #workspaces button {
-        border-radius: 999px;
-        padding: 2px 8px;
-        margin: 2px 3px;
-      }
+	  #workspaces {
+	    border-radius: 999px;
+	    background: transparent;
+	  }
 
-      #workspaces button.active {
-        background: rgba(137, 180, 250, 0.4);
-      }
+	  #workspaces button {
+	    border-radius: 999px;
+	    padding: 2px 8px;
+	    margin: 2px 3px;
+	    color: @foreground;
+	  }
 
-      #workspaces button.urgent {
-        background: rgba(243, 139, 168, 0.8);
-      }
+	  #workspaces button.active {
+	    background: @color4;
+	  }
 
-      #taskbar button {
-        border-radius: 10px;
-        padding: 2px 8px;
-        margin: 0 2px;
-      }
+	  #workspaces button.urgent {
+	    background: @color1;
+	  }
 
-      #taskbar button.active {
-        background-color: rgba(137, 180, 250, 0.3);
-      }
+	  #taskbar button {
+	    border-radius: 10px;
+	    padding: 2px 8px;
+	    margin: 0 2px;
+	  }
 
-      /* make modules inside islands inherit */
-      #pulseaudio,
-      #bluetooth,
-      #network,
-      #custom-display,
-      #cpu,
-      #memory,
-      #temperature,
-      #backlight,
-      #battery,
-      #mpris,
-      #clock,
-      #tray,
-      #custom-power {
-        background: transparent;
-        padding: 0 4px;
-        margin: 0 2px;
-      }
+	  #taskbar button.active {
+	    background-color: @color4;
+	  }
 
-      #custom-power {
-        border-radius: 999px;
-        padding: 2px 10px;
-        background: rgba(243, 139, 168, 0.9);
-        color: #1e1e2e;
-      }
+	  #pulseaudio,
+	  #bluetooth,
+	  #network,
+	  #custom-display,
+	  #cpu,
+	  #memory,
+	  #temperature,
+	  #backlight,
+	  #battery,
+	  #mpris,
+	  #clock,
+	  #tray,
+	  #custom-power {
+	    background: transparent;
+	    padding: 0 4px;
+	    margin: 0 2px;
+	    color: @foreground;
+	  }
 
-      #custom-power:hover {
-        background: rgba(243, 139, 168, 1.0);
-      }
-    '';
+	  #custom-power {
+	    border-radius: 999px;
+	    padding: 2px 10px;
+	    background: @color1;
+	    color: @background;
+	  }
+
+	  #custom-power:hover {
+	    background: @color9;
+	  }
+	'';
   };
 }
 
