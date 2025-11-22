@@ -9,7 +9,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
  
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix"; 
+
+    stylix.url = "github:danth/stylix";
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
@@ -30,7 +32,9 @@
       modules = [
         ./hosts/icebox/configuration.nix
         ./hosts/icebox/hardware-configuration.nix
-
+        inputs.stylix.nixosModules.stylix
+    
+	./modules/stylix.nix
         ./modules/desktop/hyprland.nix
         ./modules/gaming.nix
         ./modules/dev.nix

@@ -184,10 +184,7 @@
         };
       };
     };
-    style = ''
-	  /* Import pywal colors */
-	  @import url("file:///home/icy/.cache/wal/colors-waybar.css");
-
+	style = ''
 	  * {
 	    border: none;
 	    border-radius: 0;
@@ -200,14 +197,16 @@
 	    background-color: transparent;
 	  }
 
-	  /* Islands using pywal colors */
+	  /* Remove the @import line - stylix handles this */
+
+	  /* Islands - stylix will provide these colors automatically */
 	  #left,
 	  #tasks,
 	  #media,
 	  #system,
 	  #controls,
 	  #misc {
-	    background-color: @background;
+	    background-color: @base00;
 	    border-radius: 14px;
 	    padding: 4px 8px;
 	    margin: 0 6px;
@@ -222,15 +221,15 @@
 	    border-radius: 999px;
 	    padding: 2px 8px;
 	    margin: 2px 3px;
-	    color: @foreground;
+	    color: @base05;
 	  }
 
 	  #workspaces button.active {
-	    background: @color4;
+	    background: @base0D;
 	  }
 
 	  #workspaces button.urgent {
-	    background: @color1;
+	    background: @base08;
 	  }
 
 	  #taskbar button {
@@ -240,7 +239,7 @@
 	  }
 
 	  #taskbar button.active {
-	    background-color: @color4;
+	    background-color: @base0D;
 	  }
 
 	  #pulseaudio,
@@ -259,18 +258,18 @@
 	    background: transparent;
 	    padding: 0 4px;
 	    margin: 0 2px;
-	    color: @foreground;
+	    color: @base05;
 	  }
 
 	  #custom-power {
 	    border-radius: 999px;
 	    padding: 2px 10px;
-	    background: @color1;
-	    color: @background;
+	    background: @base08;
+	    color: @base00;
 	  }
 
 	  #custom-power:hover {
-	    background: @color9;
+	    background: @base09;
 	  }
 	'';
   };

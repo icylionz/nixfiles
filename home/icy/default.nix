@@ -13,8 +13,7 @@
     ./dev.nix
     ./gaming.nix
     ./spicetify.nix
-    ./pywal.nix
-    ./theme.nix
+    ./wallpaper.nix
   ];
 
   programs.bash = {

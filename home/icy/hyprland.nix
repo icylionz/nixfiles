@@ -48,8 +48,8 @@
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-        "col.active_border" = "rgba(89b4faee)";
-        "col.inactive_border" = "rgba(313244aa)";
+	"col.active_border" = "rgb(${config.lib.stylix.colors.base0D})";
+	"col.inactive_border" = "rgb(${config.lib.stylix.colors.base03})";
         layout = "dwindle";
       };
 
@@ -92,7 +92,6 @@
         "waybar"
         "swaync"
 	"swww-daemon"
-	"wal -R -n"
       ];
 
       bind = [
