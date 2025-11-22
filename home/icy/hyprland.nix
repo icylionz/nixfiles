@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  stylix.targets.hyprlock.enable = false;
+
   # Terminal used by Hyprland binds.
   programs.kitty.enable = true;
 

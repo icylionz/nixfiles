@@ -5,7 +5,7 @@
     enable = true;
     autoEnable = true;
     
-    image = /home/icy/.current-wallpaper;
+    image = ../wallpapers/default.png;
     
     polarity = "dark";
     

@@ -29,85 +29,85 @@
     fi
   '';
 
-  # Script to change wallpaper and update Stylix
-  home.file.".local/bin/wallpaper-picker" = {
-    text = ''
-      #!/usr/bin/env bash
-      # Configuration
-      WALLPAPER_DIR="$HOME/Pictures/wallpapers"
-      CACHE_DIR="$HOME/.cache/wallpaper-selector"
-      THUMBNAIL_WIDTH="250"
-      THUMBNAIL_HEIGHT="141"
-      FLAKE_PATH="$HOME/nix"
-      
-      # Create cache directory if it doesn't exist
-      mkdir -p "$CACHE_DIR"
-      
-      # Function to generate thumbnail
-      generate_thumbnail() {
-         local input="$1"
-         local output="$2"
-         magick "$input" -thumbnail "''${THUMBNAIL_WIDTH}x''${THUMBNAIL_HEIGHT}^" -gravity center -extent "''${THUMBNAIL_WIDTH}x''${THUMBNAIL_HEIGHT}" "$output"
-      }
-      
-      # Generate thumbnails and create menu items
-      generate_menu() {
-         for img in "$WALLPAPER_DIR"/*.{jpg,jpeg,png}; do
-            [[ -f "$img" ]] || continue
-            
-            thumbnail="$CACHE_DIR/$(basename "''${img%.*}").png"
-            
-            if [[ ! -f "$thumbnail" ]] || [[ "$img" -nt "$thumbnail" ]]; then
-               generate_thumbnail "$img" "$thumbnail"
-            fi
-            
-            echo -en "img:$thumbnail\x00info:$(basename "$img")\x1f$img\n"
-         done
-      }
-      
-      # Use wofi to display grid of wallpapers
-      selected=$(generate_menu | wofi --show dmenu \
-         --cache-file /dev/null \
-         --define "image-size=''${THUMBNAIL_WIDTH}x''${THUMBNAIL_HEIGHT}" \
-         --columns 3 \
-         --allow-images \
-         --insensitive \
-         --sort-order=default \
-         --prompt "Select Wallpaper" \
-         --width 900 \
-         --height 600 \
-         --style "$HOME/.config/wofi/wallpaper-style.css")
-      
-      # Set wallpaper if one was selected
-      if [ -n "$selected" ]; then
-         thumbnail_path="''${selected#img:}"
-         original_filename=$(basename "''${thumbnail_path%.*}")
-         original_path=$(find "$WALLPAPER_DIR" -type f -name "''${original_filename}.*" | head -n1)
-         
-         if [ -n "$original_path" ]; then
-            # Update the symlink for Stylix
-            ln -sf "$original_path" "$HOME/.current-wallpaper"
-            
-            # Set wallpaper immediately using swww
-            swww img "$original_path" --transition-type wipe --transition-fps 60
-            
-            # Rebuild NixOS in background to update Stylix colors
-            notify-send "Wallpaper Changed" "$(basename "$original_path")\nUpdating theme colors..."
-            
-            (
-              cd "$FLAKE_PATH" && \
-              sudo nixos-rebuild switch --flake .#icebox && \
-              notify-send "Theme Updated" "Colors have been applied"
-            ) &
-            
-         else
-            notify-send "Wallpaper Error" "Could not find the original wallpaper file."
-         fi
-      fi
-    '';
-    executable = true;
-  };
-
+	home.file.".local/bin/wallpaper-picker" = {
+	  text = ''
+	    #!/usr/bin/env bash
+	    # Configuration
+	    WALLPAPER_DIR="$HOME/Pictures/wallpapers"
+	    CACHE_DIR="$HOME/.cache/wallpaper-selector"
+	    THUMBNAIL_WIDTH="250"
+	    THUMBNAIL_HEIGHT="141"
+	    FLAKE_PATH="$HOME/nix"
+	    
+	    # Create cache directory if it doesn't exist
+	    mkdir -p "$CACHE_DIR"
+	    
+	    # Function to generate thumbnail
+	    generate_thumbnail() {
+	       local input="$1"
+	       local output="$2"
+	       magick "$input" -thumbnail "''${THUMBNAIL_WIDTH}x''${THUMBNAIL_HEIGHT}^" -gravity center -extent "''${THUMBNAIL_WIDTH}x''${THUMBNAIL_HEIGHT}" "$output"
+	    }
+	    
+	    # Generate thumbnails and create menu items
+	    generate_menu() {
+	       for img in "$WALLPAPER_DIR"/*.{jpg,jpeg,png}; do
+		  [[ -f "$img" ]] || continue
+		  
+		  thumbnail="$CACHE_DIR/$(basename "''${img%.*}").png"
+		  
+		  if [[ ! -f "$thumbnail" ]] || [[ "$img" -nt "$thumbnail" ]]; then
+		     generate_thumbnail "$img" "$thumbnail"
+		  fi
+		  
+		  echo -en "img:$thumbnail\x00info:$(basename "$img")\x1f$img\n"
+	       done
+	    }
+	    
+	    # Use wofi to display grid of wallpapers
+	    selected=$(generate_menu | wofi --show dmenu \
+	       --cache-file /dev/null \
+	       --define "image-size=''${THUMBNAIL_WIDTH}x''${THUMBNAIL_HEIGHT}" \
+	       --columns 3 \
+	       --allow-images \
+	       --insensitive \
+	       --sort-order=default \
+	       --prompt "Select Wallpaper" \
+	       --width 900 \
+	       --height 600 \
+	       --style "$HOME/.config/wofi/wallpaper-style.css")
+	    
+	    # Set wallpaper if one was selected
+	    if [ -n "$selected" ]; then
+	       thumbnail_path="''${selected#img:}"
+	       original_filename=$(basename "''${thumbnail_path%.*}")
+	       original_path=$(find "$WALLPAPER_DIR" -type f -name "''${original_filename}.*" | head -n1)
+	       
+	       if [ -n "$original_path" ]; then
+		  # Set wallpaper immediately using swww
+		  swww img "$original_path" --transition-type wipe --transition-fps 60
+		  
+		  # Copy to flake directory for Stylix
+		  cp "$original_path" "$FLAKE_PATH/wallpapers/default.png"
+		  
+		  # Commit and rebuild
+		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nUpdating theme colors..."
+		  
+		  (
+		    cd "$FLAKE_PATH" && \
+		    git add wallpapers/default.png && \
+		    git commit -m "Update wallpaper to $(basename "$original_path")" && \
+		    sudo nixos-rebuild switch --flake .#icebox && \
+		    notify-send "Theme Updated" "Colors have been applied"
+		  ) &
+		  
+	       else
+		  notify-send "Wallpaper Error" "Could not find the original wallpaper file."
+	       fi
+	    fi
+	  '';
+	  executable = true;
+	};
   # Wofi styling
   xdg.configFile."wofi/wallpaper-style.css".text = ''
     window {

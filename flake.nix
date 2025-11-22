@@ -11,7 +11,7 @@
  
     spicetify-nix.url = "github:Gerg-L/spicetify-nix"; 
 
-    stylix.url = "github:danth/stylix";
+    stylix.url = "github:nix-community/stylix/release-25.05";
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote";

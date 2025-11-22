@@ -15,6 +15,5 @@ in
       shuffle         
       fullAppDisplay
     ];
-    theme = spicePkgs.themes.hazy;
   };
 }
