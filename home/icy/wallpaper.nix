@@ -14,18 +14,18 @@
     mkdir -p "$WALLPAPER_DIR"
     
     # Copy Hyprland's default wallpaper if our default doesn't exist
-    if [ ! -f "$WALLPAPER_DIR/default.png" ]; then
+    if [ ! -f "$WALLPAPER_DIR/default.jpg" ]; then
       HYPRLAND_WALL="${pkgs.hyprland}/share/hypr/wall0.png"
       if [ -f "$HYPRLAND_WALL" ]; then
-        cp "$HYPRLAND_WALL" "$WALLPAPER_DIR/default.png"
+        cp "$HYPRLAND_WALL" "$WALLPAPER_DIR/default.jpg"
       else
-        ${pkgs.imagemagick}/bin/magick -size 1920x1080 'xc:#1e1e2e' "$WALLPAPER_DIR/default.png"
+        ${pkgs.imagemagick}/bin/magick -size 1920x1080 'xc:#1e1e2e' "$WALLPAPER_DIR/default.jpg"
       fi
     fi
     
     # Create symlink to current wallpaper if it doesn't exist
     if [ ! -L "$HOME/.current-wallpaper" ]; then
-      ln -sf "$WALLPAPER_DIR/default.png" "$HOME/.current-wallpaper"
+      ln -sf "$WALLPAPER_DIR/default.jpg" "$HOME/.current-wallpaper"
     fi
   '';
 
@@ -54,7 +54,7 @@
 	       for img in "$WALLPAPER_DIR"/*.{jpg,jpeg,png}; do
 		  [[ -f "$img" ]] || continue
 		  
-		  thumbnail="$CACHE_DIR/$(basename "''${img%.*}").png"
+		  thumbnail="$CACHE_DIR/$(basename "''${img%.*}").jpg"
 		  
 		  if [[ ! -f "$thumbnail" ]] || [[ "$img" -nt "$thumbnail" ]]; then
 		     generate_thumbnail "$img" "$thumbnail"
@@ -104,16 +104,16 @@
 		  swww img "$original_path" --transition-type wipe --transition-fps 60
 		  
 		  # Copy to flake directory for Stylix (remove read-only first if needed)
-		  rm -f "$FLAKE_PATH/wallpapers/default.png"
-		  cp "$original_path" "$FLAKE_PATH/wallpapers/default.png"
-		  chmod u+w "$FLAKE_PATH/wallpapers/default.png"
+		  rm -f "$FLAKE_PATH/wallpapers/default.jpg"
+		  cp "$original_path" "$FLAKE_PATH/wallpapers/default.jpg"
+		  chmod u+w "$FLAKE_PATH/wallpapers/default.jpg"
 		  
 		  # Commit and rebuild
-		   notify-send "Wallpaper Changed" "$(basename "$original_path")\nReady to update theme colors"
+		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nReady to update theme colors"
           
 		  (
 		    cd "$FLAKE_PATH" && \
-		    git add wallpapers/default.png && \
+		    git add wallpapers/default.jpg && \
 		    git commit -m "Update wallpaper to $(basename "$original_path")"
 		  )
 		  
