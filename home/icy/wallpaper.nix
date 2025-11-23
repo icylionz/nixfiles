@@ -113,6 +113,7 @@
           
 		  (
 		    cd "$FLAKE_PATH" && \
+		    echo "DEBUG: inside" && \
 		    git add wallpapers/default.png && \
 		    git commit -m "Update wallpaper to $(basename "$original_path")" && \
 		    pkexec nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
