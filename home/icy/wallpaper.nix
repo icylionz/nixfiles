@@ -96,7 +96,9 @@
 		  swww img "$original_path" --transition-type wipe --transition-fps 60
 		  
 		  # Copy to flake directory for Stylix
+		  rm -f "$FLAKE_PATH/wallpapers/default.png"
 		  cp "$original_path" "$FLAKE_PATH/wallpapers/default.png"
+		  chmod u+w "$FLAKE_PATH/wallpapers/default.png"
 		  
 		  # Commit and rebuild
 		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nUpdating theme colors..."
