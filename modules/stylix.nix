@@ -5,7 +5,7 @@
     enable = true;
     autoEnable = true;
     
-    image = ../wallpapers/default.png;
+    image = ../wallpapers/default.jpg;
     
     polarity = "dark";
     
