@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     rofi-wayland
     swww
-    swaynotificationcenter   # binary is `swaync`
+    swaynotificationcenter 
     grim
     slurp
     wl-clipboard
@@ -23,6 +23,7 @@
     wdisplays
     networkmanagerapplet
     wlogout
+    polkit_gnome
   ];
 
   home.sessionVariables = {
@@ -94,6 +95,7 @@
         "waybar"
         "swaync"
 	"swww-daemon"
+	"${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1" 
       ];
 
       bind = [
