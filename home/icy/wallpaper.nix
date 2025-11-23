@@ -109,16 +109,17 @@
 		  chmod u+w "$FLAKE_PATH/wallpapers/default.png"
 		  
 		  # Commit and rebuild
-		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nUpdating theme colors..."
-		  
+		   notify-send "Wallpaper Changed" "$(basename "$original_path")\nReady to update theme colors"
+          
 		  (
 		    cd "$FLAKE_PATH" && \
 		    git add wallpapers/default.png && \
-		    git commit -m "Update wallpaper to $(basename "$original_path")" && \
-		    sudo nixos-rebuild switch --flake .#icebox && \
-		    notify-send "Theme Updated" "Colors have been applied"
-		  ) &
+		    git commit -m "Update wallpaper to $(basename "$original_path")"
+		  )
 		  
+		  # Prompt for rebuild (foreground so password works)
+		  kitty -e bash -c "sudo nixos-rebuild switch --flake $FLAKE_PATH#icebox && notify-send 'Theme Updated' 'Colors have been applied'"
+
 	       else
 		  echo "DEBUG: File does not exist: '$original_path'" >&2
 		  notify-send "Wallpaper Error" "Could not find the original wallpaper file: $original_path"
