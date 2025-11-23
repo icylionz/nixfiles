@@ -37,6 +37,7 @@
 	./modules/stylix.nix
         ./modules/desktop/hyprland.nix
         ./modules/gaming.nix
+        ./modules/media.nix
         ./modules/dev.nix
   	./modules/security.nix
 	./modules/secure-boot.nix
