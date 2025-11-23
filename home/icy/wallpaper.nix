@@ -117,7 +117,7 @@
 		      git commit -m "Update wallpaper to $(basename "$original_path")"
 		    fi
 		    
-		    sudo nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
+		    pkexec nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
 		    notify-send "Theme Updated" "Colors have been applied"
 		  ) &
 
