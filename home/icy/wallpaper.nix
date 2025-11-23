@@ -83,19 +83,27 @@
 	       --height 600 \
 	       --style "$HOME/.config/wofi/wallpaper-style.css")
 	    
+	    echo "DEBUG: Selected = '$selected'" >&2
+	    
 	    # Set wallpaper if one was selected
 	    if [ -n "$selected" ]; then
+	       echo "DEBUG: Selection is not empty" >&2
+	       
 	       # Extract thumbnail path from the img: prefix
 	       thumbnail_path="''${selected#img:}"
+	       echo "DEBUG: Thumbnail path = '$thumbnail_path'" >&2
 	       
 	       # Find original path from mapping
 	       original_path=$(grep "^$thumbnail_path|" "$CACHE_DIR/mapping.tmp" | cut -d'|' -f2)
+	       echo "DEBUG: Original path = '$original_path'" >&2
 	       
 	       if [ -f "$original_path" ]; then
+		  echo "DEBUG: File exists, setting wallpaper" >&2
+		  
 		  # Set wallpaper immediately using swww
 		  swww img "$original_path" --transition-type wipe --transition-fps 60
 		  
-		  # Copy to flake directory for Stylix
+		  # Copy to flake directory for Stylix (remove read-only first if needed)
 		  rm -f "$FLAKE_PATH/wallpapers/default.png"
 		  cp "$original_path" "$FLAKE_PATH/wallpapers/default.png"
 		  chmod u+w "$FLAKE_PATH/wallpapers/default.png"
@@ -112,8 +120,11 @@
 		  ) &
 		  
 	       else
+		  echo "DEBUG: File does not exist: '$original_path'" >&2
 		  notify-send "Wallpaper Error" "Could not find the original wallpaper file: $original_path"
 	       fi
+	    else
+	       echo "DEBUG: No selection made" >&2
 	    fi
 	    
 	    # Cleanup
