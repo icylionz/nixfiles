@@ -109,14 +109,15 @@
 		  chmod u+w "$FLAKE_PATH/wallpapers/default.jpg"
 		  
 		  # Commit and rebuild
-		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nReady to update theme colors"
+		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nUpdating theme colors..."
           
 		  (
 		    cd "$FLAKE_PATH" && \
-		    git add wallpapers/default.jpg && \
-		    git commit -m "Update wallpaper to $(basename "$original_path")"
-		  )
-		  
+		    git add wallpapers/default.png && \
+		    git commit -m "Update wallpaper to $(basename "$original_path")" && \
+		    pkexec nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
+		    notify-send "Theme Updated" "Colors have been applied"
+		  ) & 
 		  # Prompt for rebuild (foreground so password works)
 		  kitty -e bash -c "sudo nixos-rebuild switch --flake $FLAKE_PATH#icebox && notify-send 'Theme Updated' 'Colors have been applied'"
 
