@@ -118,8 +118,6 @@
 		    pkexec nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
 		    notify-send "Theme Updated" "Colors have been applied"
 		  ) & 
-		  # Prompt for rebuild (foreground so password works)
-		  kitty -e bash -c "sudo nixos-rebuild switch --flake $FLAKE_PATH#icebox && notify-send 'Theme Updated' 'Colors have been applied'"
 
 	       else
 		  echo "DEBUG: File does not exist: '$original_path'" >&2
