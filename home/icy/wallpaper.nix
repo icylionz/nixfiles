@@ -110,19 +110,16 @@
 		  
 		  # Commit and rebuild
 		  notify-send "Wallpaper Changed" "$(basename "$original_path")\nUpdating theme colors..."
-		 (
+		  (
 		    cd "$FLAKE_PATH" && \
 		    git add -f wallpapers/default.jpg && \
-		    if git diff --cached --quiet; then
-		      echo "DEBUG: No changes to commit, rebuilding anyway" >&2
-		      pkexec nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
-		      notify-send "Theme Updated" "Colors have been applied"
-		    else
-		      git commit -m "Update wallpaper to $(basename "$original_path")" && \
-		      pkexec nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
-		      notify-send "Theme Updated" "Colors have been applied"
+		    if ! git diff --cached --quiet; then
+		      git commit -m "Update wallpaper to $(basename "$original_path")"
 		    fi
-		  ) &          
+		    
+		    sudo nixos-rebuild switch --flake "$FLAKE_PATH#icebox" && \
+		    notify-send "Theme Updated" "Colors have been applied"
+		  ) &
 
 	       else
 		  echo "DEBUG: File does not exist: '$original_path'" >&2
