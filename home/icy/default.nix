@@ -32,7 +32,9 @@
     fd
     htop
     btop
-    jq
+    jq 
+    zip
+    unzip
   ];
 }
 

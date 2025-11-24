@@ -113,7 +113,7 @@
           
 		  (
 		    cd "$FLAKE_PATH" && \
-		    git add wallpapers/default.png && \
+		    git add wallpapers/default.jpg && \
 		    git commit -m "Update wallpaper to $(basename "$original_path")"
 		  )
 		  
