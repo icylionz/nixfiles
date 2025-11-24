@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.username = "icy";
   home.homeDirectory = "/home/icy";
   home.stateVersion = "25.05";
@@ -19,6 +21,10 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
+    shellAliases = {
+      vim = "nvim";
+      vi = "nvim";
+    };
     initExtra = ''
       PS1="\u@\h:\w\$ "
 
@@ -32,9 +38,8 @@
     fd
     htop
     btop
-    jq 
+    jq
     zip
     unzip
   ];
 }
-
