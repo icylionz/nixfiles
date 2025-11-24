@@ -301,6 +301,15 @@
           marksman.enable = true;
           ts_ls.enable = true;
           pyright.enable = true;
+
+          # Web development
+          html.enable = true;
+          cssls.enable = true;
+          tailwindcss.enable = true;
+          templ.enable = true;
+
+          # SQL
+          sqls.enable = true;
         };
       };
 
@@ -321,10 +330,13 @@
             javascript = ["prettier"];
             typescript = ["prettier"];
             python = ["black"];
+            html = ["prettier"];
+            css = ["prettier"];
+            templ = ["templ"];
+            sql = ["sqlfluff"];
           };
         };
       };
-
       # Git integration
       gitsigns = {
         enable = true;
@@ -351,14 +363,23 @@
 
       # Go
       gopls
-      gotools
+      gotools # contains goimports, gofmt, etc.
       delve
+      templ
 
       # JSON/YAML/Markdown
       nodePackages.prettier
       nodePackages.vscode-json-languageserver
       yaml-language-server
       marksman
+
+      # Web development
+      nodePackages.vscode-langservers-extracted # html, css, eslint, json
+      tailwindcss-language-server
+
+      # SQL
+      sqls
+      sqlfluff
 
       # Python
       black
