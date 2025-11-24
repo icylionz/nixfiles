@@ -6,13 +6,7 @@
   home.username = "icy";
   home.homeDirectory = "/home/icy";
   home.stateVersion = "25.05";
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowUnfreePredicate = pkg:
-      builtins.elem (pkgs.lib.getName pkg) [
-        "codeium"
-      ];
-  };
+
   programs.home-manager.enable = true;
 
   imports = [

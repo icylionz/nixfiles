@@ -59,8 +59,6 @@
           home-manager.extraSpecialArgs = {inherit inputs;};
 
           home-manager.users.icy = import ./home/icy/default.nix;
-
-          nixpkgs.config.allowUnfree = true;
         }
       ];
     };

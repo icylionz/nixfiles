@@ -242,6 +242,9 @@
       lualine = {
         enable = true;
       };
+      web-devicons = {
+        enable = true;
+      };
 
       # File explorer
       neo-tree = {
@@ -315,7 +318,7 @@
 
       luasnip.enable = true;
 
-      codeium-vim = {
+      windsurf-vim = {
         enable = true;
       };
 
