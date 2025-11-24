@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -14,12 +16,13 @@
   time.timeZone = "America/Barbados";
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # X11 is still needed by GDM; Hyprland itself is Wayland.
   services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = ["amdgpu"];
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.gdm.wayland = true;
 
@@ -39,11 +42,11 @@
   users.users.icy = {
     isNormalUser = true;
     description = "icy";
-    extraGroups = [ "networkmanager" "audio" "wheel" ];
+    extraGroups = ["networkmanager" "audio" "wheel"];
     createHome = true;
     home = "/home/icy";
     shell = pkgs.bashInteractive;
-    
+
     # openssh.authorizedKeys.keys = []
   };
 
@@ -56,4 +59,3 @@
 
   system.stateVersion = "25.05";
 }
-

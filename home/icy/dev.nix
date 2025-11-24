@@ -210,6 +210,31 @@
         action = "<cmd>Gitsigns blame_line<CR>";
         options.desc = "Blame line";
       }
+      # Codeium AI
+      {
+        mode = "i";
+        key = "<C-Tab>";
+        action = "<Cmd>call codeium#Accept()<CR>";
+        options.desc = "Accept Codeium suggestion";
+      }
+      {
+        mode = "i";
+        key = "<C-]>";
+        action = "<Cmd>call codeium#CycleCompletions(1)<CR>";
+        options.desc = "Next Codeium suggestion";
+      }
+      {
+        mode = "i";
+        key = "<C-[>";
+        action = "<Cmd>call codeium#CycleCompletions(-1)<CR>";
+        options.desc = "Previous Codeium suggestion";
+      }
+      {
+        mode = "i";
+        key = "<C-x>";
+        action = "<Cmd>call codeium#Clear()<CR>";
+        options.desc = "Clear Codeium suggestion";
+      }
     ];
 
     plugins = {
@@ -289,6 +314,10 @@
       cmp_luasnip.enable = true;
 
       luasnip.enable = true;
+
+      codeium-vim = {
+        enable = true;
+      };
 
       # LSP
       lsp = {
