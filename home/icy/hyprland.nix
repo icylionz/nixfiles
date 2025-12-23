@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   stylix.targets.hyprlock.enable = false;
 
   # Terminal used by Hyprland binds.
@@ -8,9 +10,9 @@
 
   # Wayland desktop helpers & Hyprland ecosystem tools.
   home.packages = with pkgs; [
-    rofi-wayland
+    rofi
     swww
-    swaynotificationcenter 
+    swaynotificationcenter
     grim
     slurp
     wl-clipboard
@@ -29,7 +31,6 @@
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
-
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -51,8 +52,8 @@
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-	"col.active_border" = "rgb(${config.lib.stylix.colors.base0D})";
-	"col.inactive_border" = "rgb(${config.lib.stylix.colors.base03})";
+        "col.active_border" = "rgb(${config.lib.stylix.colors.base0D})";
+        "col.inactive_border" = "rgb(${config.lib.stylix.colors.base03})";
         layout = "dwindle";
       };
 
@@ -94,14 +95,14 @@
       exec-once = [
         "waybar"
         "swaync"
-	"swww-daemon"
-	"${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1" 
+        "swww-daemon"
+        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
       ];
 
       bind = [
         "$mod,Escape,exec,wlogout"
         "$mod,Return,exec,kitty"
-	"$mod ALT,W,exec,$HOME/.local/bin/wallpaper-picker"
+        "$mod ALT,W,exec,$HOME/.local/bin/wallpaper-picker"
         "$mod,Q,killactive,"
         "$mod,M,exit,"
         "$mod,E,exec,thunar"
@@ -110,7 +111,7 @@
         "$mod,P,exec,rofi -show run"
         "$mod,F,fullscreen,"
         "$mod,L,exec,hyprlock"
-	"$mod ALT,R,exec,pkill waybar || true && waybar &"
+        "$mod ALT,R,exec,pkill waybar || true && waybar &"
 
         "$mod,1,workspace,1"
         "$mod,2,workspace,2"
@@ -132,14 +133,20 @@
         "$mod SHIFT,8,movetoworkspace,8"
         "$mod SHIFT,9,movetoworkspace,9"
 
-	"$mod CTRL SHIFT,h,movecurrentworkspacetomonitor,l"
-	"$mod CTRL SHIFT,l,movecurrentworkspacetomonitor,r"
+        "$mod CTRL SHIFT,h,movecurrentworkspacetomonitor,l"
+        "$mod CTRL SHIFT,l,movecurrentworkspacetomonitor,r"
 
-	# NEW: screenshots
+        # NEW: screenshots
         # area to clipboard
         "$mod SHIFT,S,exec,grim -g \"$(slurp)\" - | wl-copy"
         # area to swappy (annotate + save)
         "SHIFT,Print,exec,grim -g \"$(slurp)\" - | swappy -f -"
+
+        # Window focus navigation
+        "$mod,h,movefocus,l"
+        "$mod,j,movefocus,d"
+        "$mod,k,movefocus,u"
+        "$mod,l,movefocus,r"
       ];
 
       bindm = [
@@ -222,4 +229,3 @@
     };
   };
 }
-

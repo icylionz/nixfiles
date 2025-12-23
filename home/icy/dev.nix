@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
   ];
 
   # Coding / dev tools.
@@ -235,6 +235,45 @@
         action = "<Cmd>call codeium#Clear()<CR>";
         options.desc = "Clear Codeium suggestion";
       }
+
+      # Window/pane splits
+      {
+        mode = "n";
+        key = "<leader>sv";
+        action = "<cmd>vsplit<CR>";
+        options.desc = "Split vertically";
+      }
+      {
+        mode = "n";
+        key = "<leader>sh";
+        action = "<cmd>split<CR>";
+        options.desc = "Split horizontally";
+      }
+      # Window/pane navigation
+      {
+        mode = "n";
+        key = "<C-h>";
+        action = "<C-w>h";
+        options.desc = "Move to left window";
+      }
+      {
+        mode = "n";
+        key = "<C-j>";
+        action = "<C-w>j";
+        options.desc = "Move to bottom window";
+      }
+      {
+        mode = "n";
+        key = "<C-k>";
+        action = "<C-w>k";
+        options.desc = "Move to top window";
+      }
+      {
+        mode = "n";
+        key = "<C-l>";
+        action = "<C-w>l";
+        options.desc = "Move to right window";
+      }
     ];
 
     plugins = {
@@ -249,8 +288,10 @@
       # File explorer
       neo-tree = {
         enable = true;
-        closeIfLastWindow = true;
-        window.width = 30;
+        settings = {
+          close_if_last_window = true;
+          window.width = 30;
+        };
       };
 
       # Fuzzy finder

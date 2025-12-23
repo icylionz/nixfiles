@@ -18,6 +18,14 @@
     ./wallpaper.nix
   ];
 
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = "thunar.desktop";
+      "application/x-directory" = "thunar.desktop";
+    };
+  };
+
   programs.bash = {
     enable = true;
     enableCompletion = true;

@@ -17,6 +17,9 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-36.9.5"
+  ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
