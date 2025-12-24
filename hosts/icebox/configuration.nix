@@ -26,8 +26,8 @@
   # X11 is still needed by GDM; Hyprland itself is Wayland.
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["amdgpu"];
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
 
   # Audio: PipeWire only.
   services.pulseaudio.enable = false;

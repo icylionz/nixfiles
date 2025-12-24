@@ -24,10 +24,12 @@
 
   programs.git = {
     enable = true;
-    userName = "icy";
-    userEmail = "kinglioniod@gmail.com";
+    settings = {
+      user = {
+        name = "icy";
+        email = "kinglioniod@gmail.com";
+      };
 
-    extraConfig = {
       init.defaultBranch = "main";
       pull.rebase = "false";
       push.autoSetupRemote = "true";
