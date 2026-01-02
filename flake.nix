@@ -53,6 +53,7 @@
         ./modules/security.nix
         ./modules/secure-boot.nix
         ./modules/bluetooth.nix
+        ./modules/flatpak.nix
 
         home-manager.nixosModules.home-manager
         {
