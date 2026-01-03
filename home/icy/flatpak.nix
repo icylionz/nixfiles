@@ -4,9 +4,12 @@
   ];
 
   services.flatpak = {
-    remotes = {
-      flathub = "https://flathub.org/repo/flathub.flatpakrepo";
-    };
+    remotes = [
+      {
+        name = "flathub";
+        location = "https://flathub.org/repo/flathub.flatpakrepo";
+      }
+    ];
 
     packages = [
       "com.stremio.Stremio"
@@ -16,6 +19,14 @@
     update.auto = {
       enable = true;
       onCalendar = "weekly";
+    };
+
+    uninstallUnmanaged = false;
+  };
+
+  systemd.user.services.flatpak-managed-install = {
+    Unit = {
+      After = ["graphical-session.target"];
     };
   };
 }

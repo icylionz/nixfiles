@@ -88,10 +88,6 @@
         };
       };
 
-      gestures = {
-        workspace_swipe = true;
-      };
-
       exec-once = [
         "waybar"
         "swaync"
