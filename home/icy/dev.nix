@@ -9,8 +9,6 @@
 
   # Coding / dev tools.
   home.packages = with pkgs; [
-    firefox
-    brave
     go
     jdk21
     maven
