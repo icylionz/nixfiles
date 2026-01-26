@@ -10,6 +10,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # AMD GPU stability fixes
+  boot.kernelParams = [
+    "amdgpu.dc=1"
+    "amdgpu.gpu_recovery=1"
+    "amdgpu.ppfeaturemask=0xffffffff"
+  ];
+
   networking.hostName = "icebox";
   networking.networkmanager.enable = true;
 
@@ -45,12 +52,19 @@
   users.users.icy = {
     isNormalUser = true;
     description = "icy";
-    extraGroups = ["networkmanager" "audio" "wheel"];
+    extraGroups = ["networkmanager" "audio" "wheel" "video"];
     createHome = true;
     home = "/home/icy";
     shell = pkgs.bashInteractive;
 
     # openssh.authorizedKeys.keys = []
+  };
+
+  # Global environment variables for Electron apps
+  environment.sessionVariables = {
+    # Disable GPU acceleration for Electron apps
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+    DISABLE_HARDWARE_ACCELERATION = "1";
   };
 
   # Minimal system tools; all your desktop apps go via Home Manager.
