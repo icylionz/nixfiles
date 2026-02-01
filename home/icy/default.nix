@@ -56,5 +56,7 @@
     jq
     zip
     unzip
+    protonvpn-gui
+    qalculate-gtk
   ];
 }
