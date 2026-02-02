@@ -59,4 +59,17 @@
     protonvpn-gui
     qalculate-gtk
   ];
+
+  # Electron apps — GPU crash workaround for AMD + Wayland
+  home.file.".config/discord/flags.conf".text = ''
+    --disable-gpu
+    --disable-software-rasterizer
+    --disable-gpu-compositing
+  '';
+
+  home.file.".config/heroic/flags.conf".text = ''
+    --disable-gpu
+    --disable-software-rasterizer
+    --disable-gpu-compositing
+  '';
 }

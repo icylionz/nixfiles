@@ -16,8 +16,12 @@
     nodejs_22
     pnpm
     python3
-    docker-client
+    podman
+    podman-compose
+    podman-tui
     terraform
+    sqlc
+    templ
   ];
 
   programs.git = {
@@ -129,6 +133,30 @@
         key = "<leader>fh";
         action = "<cmd>Telescope help_tags<CR>";
         options.desc = "Help tags";
+      }
+      {
+        mode = "n";
+        key = "<leader>d";
+        action = "<cmd>lua vim.diagnostic.open_float()<CR>";
+        options.desc = "Show diagnostic at cursor";
+      }
+      {
+        mode = "n";
+        key = "<leader>dl";
+        action = "<cmd>Telescope diagnostics<CR>";
+        options.desc = "List all diagnostics";
+      }
+      {
+        mode = "n";
+        key = "]d";
+        action = "<cmd>lua vim.diagnostic.goto_next()<CR>";
+        options.desc = "Next diagnostic";
+      }
+      {
+        mode = "n";
+        key = "[d";
+        action = "<cmd>lua vim.diagnostic.goto_prev()<CR>";
+        options.desc = "Previous diagnostic";
       }
 
       # File explorer
