@@ -10,11 +10,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # AMD GPU stability fixes
   boot.kernelParams = [
     "amdgpu.dc=1"
     "amdgpu.gpu_recovery=1"
-    "amdgpu.ppfeaturemask=0xffffffff"
   ];
 
   networking.hostName = "icebox";
@@ -72,6 +73,8 @@
     vim
     wget
     curl
+    amdgpu_top
+    lm_sensors
   ];
 
   system.stateVersion = "25.05";

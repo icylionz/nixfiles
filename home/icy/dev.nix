@@ -18,6 +18,7 @@
     python3
     podman
     podman-compose
+    podman-desktop
     podman-tui
     terraform
     sqlc
@@ -434,7 +435,7 @@
             html = ["prettier"];
             css = ["prettier"];
             templ = ["templ"];
-            sql = ["sqlfluff"];
+            sql = ["pg_format"];
           };
         };
       };
@@ -480,7 +481,7 @@
 
       # SQL
       sqls
-      sqlfluff
+      pgformatter
 
       # Python
       black
