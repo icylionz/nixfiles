@@ -7,6 +7,10 @@
     heroic
     mangohud
     discord
-    prismlauncher
+    # Minecraft with dedicated GPU
+    (pkgs.writeShellScriptBin "prismlauncher" ''
+      export DRI_PRIME=1
+      exec ${pkgs.prismlauncher}/bin/prismlauncher "$@"
+    '')
   ];
 }

@@ -48,6 +48,12 @@
     alsa.support32Bit = true;
   };
 
+  hardware.graphics = {
+    extraPackages = with pkgs; [
+      rocmPackages.clr.icd
+    ];
+  };
+
   services.openssh.enable = true;
 
   users.users.icy = {
@@ -73,8 +79,6 @@
     vim
     wget
     curl
-    amdgpu_top
-    lm_sensors
   ];
 
   system.stateVersion = "25.05";

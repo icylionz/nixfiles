@@ -52,12 +52,14 @@
     ripgrep
     fd
     htop
-    btop
+    (btop.override {rocmSupport = true;})
     jq
     zip
     unzip
     protonvpn-gui
     qalculate-gtk
+    radeontop
+    lm_sensors
   ];
 
   # Electron apps — GPU crash workaround for AMD + Wayland

@@ -13,7 +13,7 @@
     jdk21
     maven
     gradle
-    nodejs_22
+    nodejs_latest
     pnpm
     python3
     podman
