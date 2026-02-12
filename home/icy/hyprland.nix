@@ -113,7 +113,7 @@
         "$mod,Space,exec,rofi -show drun"
         "$mod,P,exec,rofi -show run"
         "$mod,F,fullscreen,"
-        "$mod,L,exec,hyprlock"
+        "$mod CTRL,L,exec,hyprlock"
         "$mod ALT,R,exec,pkill waybar || true && waybar &"
 
         "$mod,1,workspace,1"
