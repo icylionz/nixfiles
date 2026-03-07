@@ -79,6 +79,8 @@
     vim
     wget
     curl
+    pciutils
+    dig
   ];
 
   system.stateVersion = "25.05";

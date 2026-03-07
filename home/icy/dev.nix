@@ -53,6 +53,7 @@
     opts = {
       number = true;
       relativenumber = true;
+      clipboard = "unnamedplus";
       shiftwidth = 2;
       tabstop = 2;
       expandtab = true;
@@ -490,6 +491,8 @@
       # General
       ripgrep
       fd
+      wl-clipboard
+      xclip
     ];
   };
 }
