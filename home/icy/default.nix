@@ -62,13 +62,12 @@
     lm_sensors
   ];
 
-  # Electron apps — GPU crash workaround for AMD + Wayland
+  # Discord screen share on Wayland needs PipeWire capture and working compositing.
   home.file.".config/discord/flags.conf".text = ''
-    --disable-gpu
-    --disable-software-rasterizer
-    --disable-gpu-compositing
+    --enable-features=WebRTCPipeWireCapturer
   '';
 
+  # Keep AMD/Electron GPU workaround scoped to apps that still need it.
   home.file.".config/heroic/flags.conf".text = ''
     --disable-gpu
     --disable-software-rasterizer

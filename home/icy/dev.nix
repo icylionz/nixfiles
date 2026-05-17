@@ -2,7 +2,45 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  codexVersion = "0.121.0";
+  codex = pkgs.stdenvNoCC.mkDerivation {
+    pname = "openai-codex";
+    version = codexVersion;
+
+    src = pkgs.fetchurl {
+      url = "https://registry.npmjs.org/@openai/codex/-/codex-${codexVersion}-linux-x64.tgz";
+      hash = "sha512-vlpNJXIqss800J+32Vy7TUZzv31n61b45OLxmsVQGFkTNLJcjFrj9jDUC7I62eC4F16gLioilefNfv4CdJQOEw==";
+    };
+
+    sourceRoot = "package";
+    nativeBuildInputs = [pkgs.makeWrapper];
+
+    dontConfigure = true;
+    dontBuild = true;
+
+    installPhase = ''
+      runHook preInstall
+
+      install -Dm755 vendor/x86_64-unknown-linux-musl/codex/codex \
+        $out/libexec/codex/codex
+      install -Dm755 vendor/x86_64-unknown-linux-musl/path/rg \
+        $out/libexec/codex/path/rg
+
+      makeWrapper $out/libexec/codex/codex $out/bin/codex \
+        --prefix PATH : "$out/libexec/codex/path:${pkgs.lib.makeBinPath [pkgs.git]}"
+
+      runHook postInstall
+    '';
+
+    meta = with pkgs.lib; {
+      description = "OpenAI Codex CLI";
+      homepage = "https://github.com/openai/codex";
+      license = licenses.asl20;
+      platforms = platforms.linux;
+    };
+  };
+in {
   imports = [
     inputs.nixvim.homeModules.nixvim
   ];
@@ -23,6 +61,8 @@
     terraform
     sqlc
     templ
+    codex
+    opencode
   ];
 
   programs.git = {

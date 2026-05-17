@@ -67,11 +67,9 @@
     # openssh.authorizedKeys.keys = []
   };
 
-  # Global environment variables for Electron apps
+  # Prefer native Wayland for Electron apps; keep GPU workarounds app-specific.
   environment.sessionVariables = {
-    # Disable GPU acceleration for Electron apps
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
-    DISABLE_HARDWARE_ACCELERATION = "1";
   };
 
   # Minimal system tools; all your desktop apps go via Home Manager.
