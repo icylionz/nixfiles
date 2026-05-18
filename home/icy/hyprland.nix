@@ -11,7 +11,7 @@
   # Wayland desktop helpers & Hyprland ecosystem tools.
   home.packages = with pkgs; [
     rofi
-    swww
+    awww
     swaynotificationcenter
     grim
     slurp
@@ -20,7 +20,7 @@
     brightnessctl
     playerctl
     pavucontrol
-    xfce.thunar
+    thunar
     blueman
     wdisplays
     networkmanagerapplet
@@ -32,8 +32,11 @@
     NIXOS_OZONE_WL = "1";
   };
 
+  xdg.configFile."hypr/hyprland.conf".force = true;
+
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     # use system hyprland from NixOS module
     package = null;
     portalPackage = null;
@@ -57,11 +60,11 @@
         layout = "dwindle";
       };
 
-      windowrulev2 = [
-        "float,title:^(Picture-in-Picture)$"
-        "pin,title:^(Picture-in-Picture)$"
-        "keepaspectratio,title:^(Picture-in-Picture)$"
-        "noborder,title:^(Picture-in-Picture)$"
+      windowrule = [
+        "float on, match:title ^(Picture-in-Picture)$"
+        "pin on, match:title ^(Picture-in-Picture)$"
+        "keep_aspect_ratio on, match:title ^(Picture-in-Picture)$"
+        "border_size 0, match:title ^(Picture-in-Picture)$"
       ];
 
       decoration = {
@@ -98,7 +101,7 @@
       exec-once = [
         "waybar"
         "swaync"
-        "swww-daemon"
+        "awww-daemon"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
       ];
 
@@ -139,13 +142,9 @@
         "$mod CTRL SHIFT,h,movecurrentworkspacetomonitor,l"
         "$mod CTRL SHIFT,l,movecurrentworkspacetomonitor,r"
 
-        # NEW: screenshots
-        # area to clipboard
         "$mod SHIFT,S,exec,grim -g \"$(slurp)\" - | wl-copy"
-        # area to swappy (annotate + save)
         "SHIFT,Print,exec,grim -g \"$(slurp)\" - | swappy -f -"
 
-        # Window focus navigation
         "$mod,h,movefocus,l"
         "$mod,j,movefocus,d"
         "$mod,k,movefocus,u"
@@ -157,13 +156,11 @@
         "$mod,mouse:273,resizewindow"
       ];
 
-      # Volume keys (repeat while held, work on lockscreen)
       bindel = [
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ];
 
-      # Media + mute keys
       bindl = [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioPlay, exec, playerctl play-pause"
@@ -173,7 +170,7 @@
     };
   };
 
-  # Idle + lock integration. :contentReference[oaicite:4]{index=4}
+  # Idle + lock integration.
   services.hypridle = {
     enable = true;
     settings = {

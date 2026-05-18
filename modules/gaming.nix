@@ -12,13 +12,13 @@
     lutris
     bottles
     heroic
-    wineWowPackages.stable
+    wineWow64Packages.stable
     wine
     (wine.override {wineBuild = "wine64";})
     wine64
-    wineWowPackages.staging
+    wineWow64Packages.staging
     winetricks
-    wineWowPackages.waylandFull
+    wineWow64Packages.waylandFull
   ];
 
   environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";

@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    swww
+    awww
     wofi
     imagemagick
     libnotify
@@ -100,8 +100,8 @@
 	       if [ -f "$original_path" ]; then
 		  echo "DEBUG: File exists, setting wallpaper" >&2
 		  
-		  # Set wallpaper immediately using swww
-		  swww img "$original_path" --transition-type wipe --transition-fps 60
+		  # Set wallpaper immediately using awww
+		  awww img "$original_path" --transition-type wipe --transition-fps 60
 		  
 		  # Copy to flake directory for Stylix (remove read-only first if needed)
 		  rm -f "$FLAKE_PATH/wallpapers/default.jpg"

@@ -431,6 +431,7 @@ in {
 
       windsurf-vim = {
         enable = true;
+        settings.bin = "codeium_language_server";
       };
 
       # LSP
@@ -511,13 +512,13 @@ in {
       templ
 
       # JSON/YAML/Markdown
-      nodePackages.prettier
-      nodePackages.vscode-json-languageserver
+      prettier
+      vscode-json-languageserver
       yaml-language-server
       marksman
 
       # Web development
-      nodePackages.vscode-langservers-extracted # html, css, eslint, json
+      vscode-langservers-extracted # html, css, eslint, json
       tailwindcss-language-server
 
       # SQL

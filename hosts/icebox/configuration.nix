@@ -23,6 +23,14 @@
 
   time.timeZone = "America/Barbados";
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      openldap = prev.openldap.overrideAttrs (_: {
+        doCheck = false;
+      });
+    })
+  ];
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: true;
   nixpkgs.config.permittedInsecurePackages = [

@@ -47,6 +47,8 @@
     XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
   };
 
+  gtk.gtk4.theme = config.gtk.theme;
+
   # Common CLI utilities.
   home.packages = with pkgs; [
     ripgrep
@@ -56,7 +58,7 @@
     jq
     zip
     unzip
-    protonvpn-gui
+    proton-vpn
     qalculate-gtk
     radeontop
     lm_sensors
