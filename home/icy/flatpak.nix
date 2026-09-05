@@ -16,20 +16,9 @@
     ];
 
     packages = [
-      "com.stremio.Stremio"
       "net.davidotek.pupgui2" # ProtonUp-Qt
+      "org.vinegarhq.Sober" # Roblox
     ];
-
-    overrides = {
-      "com.stremio.Stremio" = {
-        Context.sockets = ["wayland" "fallback-x11" "pulseaudio"];
-        Environment = {
-          "DISABLE_HARDWARE_ACCELERATION" = "1";
-          "LIBVA_DRIVER_NAME" = "radeonsi";
-          "ELECTRON_OZONE_PLATFORM_HINT" = "auto";
-        };
-      };
-    };
 
     update.auto = {
       enable = true;

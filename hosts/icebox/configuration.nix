@@ -10,7 +10,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  # 6.18 has been flaky with DP-1 on this machine; use the stable 6.12 branch.
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   # AMD GPU stability fixes
   boot.kernelParams = [
@@ -33,17 +34,14 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-36.9.5"
-  ];
-
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # X11 is still needed by GDM; Hyprland itself is Wayland.
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["amdgpu"];
   services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.wayland = true;
+  services.displayManager.gdm.debug = true;
+  services.displayManager.defaultSession = "hyprland";
 
   # Audio: PipeWire only.
   services.pulseaudio.enable = false;

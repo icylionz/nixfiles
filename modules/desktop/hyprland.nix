@@ -1,8 +1,22 @@
 { config, pkgs, ... }:
 
-{
+let
+  hyprlandPackage = pkgs.hyprland.overrideAttrs (old: {
+    passthru = (old.passthru or {}) // {
+      providedSessions = ["hyprland"];
+    };
+
+    postInstall = (old.postInstall or "") + ''
+      substituteInPlace "$out/share/wayland-sessions/hyprland.desktop" \
+        --replace-fail "Exec=$out/bin/start-hyprland" "Exec=$out/bin/start-hyprland --path $out/bin/Hyprland"
+
+      rm -f "$out/share/wayland-sessions/hyprland-uwsm.desktop"
+    '';
+  });
+in {
   programs.hyprland = {
     enable = true;
+    package = hyprlandPackage;
     xwayland.enable = true;
   };
 
@@ -30,4 +44,3 @@
     NIXOS_OZONE_WL = "1";
   };
 }
-

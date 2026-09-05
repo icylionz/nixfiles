@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   home.username = "icy";
@@ -40,14 +41,13 @@
       PS1="\u@\h:\w\$ "
 
       export PATH="$HOME/.local/bin:$PATH"
+      export EDITOR=nvim
     '';
   };
 
   home.sessionVariables = {
     XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
   };
-
-  gtk.gtk4.theme = config.gtk.theme;
 
   # Common CLI utilities.
   home.packages = with pkgs; [
@@ -56,12 +56,15 @@
     htop
     (btop.override {rocmSupport = true;})
     jq
+    openssl
     zip
     unzip
     proton-vpn
     qalculate-gtk
     radeontop
     lm_sensors
+    pkgs."stremio-linux-shell"
+    inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
   ];
 
   # Discord screen share on Wayland needs PipeWire capture and working compositing.

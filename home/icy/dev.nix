@@ -4,6 +4,7 @@
   ...
 }: let
   codexVersion = "0.121.0";
+  claudeCodeVersion = "2.1.205";
   codex = pkgs.stdenvNoCC.mkDerivation {
     pname = "openai-codex";
     version = codexVersion;
@@ -40,6 +41,14 @@
       platforms = platforms.linux;
     };
   };
+
+  claudeCode = pkgs.claude-code.overrideAttrs (_: {
+    version = claudeCodeVersion;
+    src = pkgs.fetchurl {
+      url = "https://downloads.claude.ai/claude-code-releases/${claudeCodeVersion}/linux-x64/claude";
+      sha256 = "02avzvmmz66rf0a3z8rp0fxk0z1rggjq8la22wfzw0x5nv0391yx";
+    };
+  });
 in {
   imports = [
     inputs.nixvim.homeModules.nixvim
@@ -63,6 +72,8 @@ in {
     templ
     codex
     opencode
+    claudeCode
+    citrix-workspace
   ];
 
   programs.git = {
@@ -86,6 +97,7 @@ in {
 
   programs.nixvim = {
     enable = true;
+    nixpkgs.source = inputs.nixpkgs;
 
     globals.mapleader = " ";
     globals.maplocalleader = " ";
